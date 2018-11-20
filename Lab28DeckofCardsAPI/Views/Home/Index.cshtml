@@ -1,0 +1,43 @@
+﻿@if (ViewBag.CardsInHand != null)
+{
+    foreach (var card in ViewBag.CardsInHand)
+    {
+        <section>
+            <img src="@card.Image" />
+            <p>@card.Value OF @card.Suit</p>
+        </section>
+    }
+}
+<br />
+<form action="/Home/CreateDeck" method="post">
+    <input type="submit" value="Make a new deck" />
+</form>
+<br />
+@if (ViewBag.Deck != null)
+{
+    <form action="/Home/DrawCards" method="post">
+        <input type="submit" value="Draw cards!" />
+        <input type="hidden" name="deck_id" value="@ViewBag.Deck" />
+    </form>
+}
+else if (Request.Cookies["deck_id"] != null)
+{
+    <form action="/Home/DrawCards" method="get">
+        <input type="hidden" name="deck_id" value="@Request.Cookies["deck_id"].Value" />
+        <input type="submit" value="Draw new hand!" />
+    </form>
+}
+<style>
+    section {
+        display: inline-block;
+    }
+
+    img {
+        height: 235px;
+        width: 169px;
+    }
+
+    p {
+        text-align: center;
+    }
+</style>
